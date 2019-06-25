@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    
+    <changeSet id="1" author="VuHoangSon (generated)">
+        <createTable tableName="bill">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="createdDay" type="date"/>
+            <column name="person_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="brand">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="brand_name" type="varchar(255)"/>
+            <column name="location" type="text"/>
+            <column name="nation" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="category">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="event">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="content" type="text"/>
+            <column name="availableDay" type="date"/>
+            <column name="expirationDay" type="date"/>
+            <column name="person_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="giftcard">
+            <column name="quantity" type="int"/>
+            <column name="giftcarddetail_id" type="bigint"/>
+            <column name="person_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="giftcarddetail">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="type" type="varchar(255)"/>
+            <column name="value" type="float"/>
+            <column name="description" type="text"/>
+        </createTable>
+
+        <createTable tableName="order">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="createdDay" type="date"/>
+            <column name="quantity" type="int"/>
+            <column name="status" type="varchar(255)"/>
+            <column name="person_id" type="bigint"/>
+            <column name="bill_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="person">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="age" type="int"/>
+            <column name="address" type="text"/>
+            <column name="email" type="varchar(255)"/>
+            <column name="birthday" type="date"/>
+            <column name="username" type="varchar(255)">
+                <constraints unique="true"/>
+            </column>
+            <column name="password" type="varchar(255)"/>
+            <column name="role" type="varchar(255)"/>
+            <column name="phonenumber" type="varchar(10)"/>
+        </createTable>
+
+        <createTable tableName="toy">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="type" type="varchar(255)"/>
+            <column name="price" type="float"/>
+            <column name="manufacturingday" type="date"/>
+            <column name="manufacturer" type="varchar(255)"/>
+            <column name="quantityinstock" type="int"/>
+            <column name="description" type="text"/>
+            <column name="brand_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="2" author="VuHoangSon (generated)">
+        <addForeignKeyConstraint baseTableName="toy"
+                                 baseColumnNames="brand_id"
+                                 constraintName="fk_toy_brand"
+                                 referencedTableName="brand"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="3" author="VuHoangSon (generated)">
+        <addForeignKeyConstraint baseTableName="order"
+                                 baseColumnNames="person_id"
+                                 constraintName="fk_order_person"
+                                 referencedTableName="person"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="4" author="VuHoangSon (generated)">
+        <addForeignKeyConstraint baseTableName="order" baseColumnNames="bill_id" constraintName="fk_order_bill"
+                                 referencedTableName="bill"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="5" author="VuHoangSon (generated)">
+        <addForeignKeyConstraint baseTableName="giftcard" baseColumnNames="giftcarddetail_id"
+                                 constraintName="fk_giftcard_giftcarddetail"
+                                 referencedTableName="giftcarddetail"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="giftcard" baseColumnNames="person_id"
+                                 constraintName="fk_giftcard_person"
+                                 referencedTableName="person"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="6" author="VuHoangSon (generated)">
+        <addForeignKeyConstraint baseTableName="event" baseColumnNames="person_id" constraintName="fk_event_person"
+                                 referencedTableName="person"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="7" author="VuHoangSon (generated)">
+        <addForeignKeyConstraint baseTableName="bill" baseColumnNames="person_id" constraintName="fk_bill_person"
+                                 referencedTableName="person"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="8" author="VuHoangSon">
+        <addColumn tableName="brand">
+            <column name="name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="9" author="VuHoangSon">
+        <dropColumn tableName="brand" columnName="brand_name"/>
+    </changeSet>
+
+
+</databaseChangeLog>
