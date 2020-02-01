@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Payment</title>
+    <link rel="icon" th:href="@{/resource/rating/images/toyshop.png}">
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Font-->
+    <link rel="stylesheet" type="text/css" th:href="@{/resource/payment/css/opensans-font.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/resource/payment/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css}">
+    <!-- Main Style Css -->
+    <link rel="stylesheet" th:href="@{/resource/payment/css/style.css}"/>
+</head>
+<body>
+<div class="logo-div">
+    <a href="/home"><img src="/resource/themes/images/logo2.png" width="193" height="55" alt=""></a>
+</div>
+<form method="post" id="form-order" action="/ordered"></form>
+<div class="page-content">
+    <div class="form-v1-content">
+        <div class="wizard-form">
+            <form class="form-register" action="#" method="post">
+                <div id="form-total">
+                    <!-- SECTION 1 -->
+                    <h2>
+                        <p class="step-icon"><span>01</span></p>
+                        <span class="step-text">Cart Infomation</span>
+                    </h2>
+                    <section>
+                        <div class="inner">
+                            <div class="wizard-header">
+                                <h3 class="heading">Cart Infomation</h3>
+                                <p><a href="/cart">Edit your cart</a></p>
+                            </div>
+                            <table align="center">
+                                <th:block th:each="order : ${cart.getOrders()}">
+                                    <tr>
+                                        <td class="firstCol"><pre th:text="${order.quantity} + '  X  ' + ${order.toy.name}"></pre></td>
+                                        <td class="lastCol"><pre th:text="'$' + ${order.quantity * order.toy.price}"></pre></td>
+                                    </tr>
+                                </th:block>
+                                <td class="firstCol"><pre><b>Total</b> (including Shipping fee and VAT)</pre></td>
+                                <td class="lastCol"><pre th:text="'$' + ${cart.getFinalTotal()}"></pre></td>
+                            </table>
+                        </div>
+                    </section>
+                    <!-- SECTION 2 -->
+                    <h2>
+                        <p class="step-icon"><span>02</span></p>
+                        <span class="step-text">Customer Information</span>
+                    </h2>
+                    <section>
+                        <div class="inner">
+                            <div class="wizard-header">
+                                <h3 class="heading">Customer Information</h3>
+                                <p><a href="/profile">Edit your profile</a></p>
+                            </div>
+                            <table align="center">
+                                <tr>
+                                    <td class="firstCol"><pre>Name</pre></td>
+                                    <td class="lastCol"><pre th:text="${account.name}"></pre></td>
+                                </tr>
+                                <tr>
+                                    <td class="firstCol"><pre>Email</pre></td>
+                                    <td class="lastCol"><pre th:text="${account.email}"></pre></td>
+                                </tr>
+                                <tr>
+                                    <td class="firstCol"><pre>Phone</pre></td>
+                                    <td class="lastCol"><pre th:text="${account.phone}"></pre></td>
+                                </tr>
+                                <tr>
+                                    <td class="firstCol"><pre>Address</pre></td>
+                                    <td class="lastCol"><pre th:text="${account.address}"></pre></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </section>
+                    <!-- SECTION 3 -->
+                    <h2>
+                        <p class="step-icon"><span>03</span></p>
+                        <span class="step-text">Payment & Order</span>
+                    </h2>
+                    <section>
+                        <div class="inner">
+                            <div class="wizard-header">
+                                <h3 class="heading">Payment & Order</h3>
+                                <p>Please check again your cart and your information before buying.</p>
+                            </div>
+                            <fieldset>
+                                <legend>Your Cart</legend>
+                                <th:block th:each="order : ${cart.getOrders()}">
+                                    <pre th:text="${order.quantity} + '  X  ' + ${order.toy.name}"></pre>
+                                </th:block>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Your Profile Information</legend>
+                                <pre th:text="'Name: ' + ${account.name}"></pre>
+                                <pre th:text="'Email: ' + ${account.email}"></pre>
+                                <pre th:text="'Phone: ' + ${account.phone}"></pre>
+                                <pre th:text="'Address: ' + ${account.address}"></pre>
+                            </fieldset>
+                            <table align="center">
+                                <tr>
+                                    <td th:text="'Total: $' + ${cart.getFinalTotal()}"></td>
+                                    <td><input type="submit" form="form-order" value="Order"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/resource/payment/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/resource/payment/js/jquery.steps.js}"></script>
+<script th:src="@{/resource/payment/js/main.js}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

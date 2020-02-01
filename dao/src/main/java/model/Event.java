@@ -4,7 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "event")
@@ -17,14 +16,14 @@ public class Event {
     private String content;
 
     @DateTimeFormat(pattern = "dd/MM/yy")
-    private Date availableDay;
+    private Date availableDate;
 
     @DateTimeFormat(pattern = "dd/MM/yy")
-    private Date expirationDay;
+    private Date expirationDate;
 
-    @ManyToOne(targetEntity = Person.class)
-    @JoinColumn(name = "person_id")
-    private Person person;
+    @ManyToOne(targetEntity = Account.class)
+    @JoinColumn(name = "accountId")
+    private Account account;
 
     public Long getId() {
         return id;
@@ -42,27 +41,27 @@ public class Event {
         this.content = content;
     }
 
-    public Date getAvailableDay() {
-        return availableDay;
+    public Date getAvailableDate() {
+        return availableDate;
     }
 
-    public void setAvailableDay(Date availableDay) {
-        this.availableDay = availableDay;
+    public void setAvailableDate(Date availableDate) {
+        this.availableDate = availableDate;
     }
 
-    public Date getExpirationDay() {
-        return expirationDay;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExpirationDay(Date expirationDay) {
-        this.expirationDay = expirationDay;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
-    public Person getPerson() {
-        return person;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

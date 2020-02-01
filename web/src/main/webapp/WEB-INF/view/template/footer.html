@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="content">
+    <section id="footer-bar">
+        <div class="row">
+            <div class="span3">
+                <h4>Navigation</h4>
+                <ul class="nav">
+                    <li><a href="/home">Homepage</a></li>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contac Us</a></li>
+                    <li><a href="/cart">Your Cart</a></li>
+                    <li><a href="/login-form">Login</a></li>
+                </ul>
+            </div>
+            <div class="span4">
+                <h4>My Account</h4>
+                <ul class="nav">
+                    <li><a href="/profile">My Account</a></li>
+                    <li><a href="/order-history">Order History</a></li>
+                    <li><a href="/favorite">Favorite List</a></li>
+                    <li><a href="#">Newsletter</a></li>
+                </ul>
+            </div>
+            <div class="span5">
+                <p class="logo"><img src="/resource/themes/images/logo2.png" class="site_logo" alt=""></p>
+                <p>
+                    Toy Store Industry E-Commerce in Vietnam</br>
+                    Contact us: Tryhard Team</br>
+                    Phone: 0378564777</br>
+                    Address: Danang City - Vietnam</br>
+                </p>
+                <br/>
+                <span class="social-network">
+                    <a class="social_icon" target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/truongprohk2502"><img src="/resource/themes/images/facebook.png" alt="" /></a>
+                    <a class="social_icon" href="#"><img src="/resource/themes/images/zalo.png" alt="" /></a>
+				</span>
+            </div>
+        </div>
+    </section>
+    <section id="copyright">
+        <span>Copyright 2019 Tryhard Team.</span>
+    </section>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Products of Brand</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="icon" th:href="@{/resource/rating/images/toyshop.png}">
+
+    <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+    <!-- bootstrap -->
+    <link th:href="@{/resource/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resource/bootstrap/css/bootstrap-responsive.min.css}" rel="stylesheet">
+
+    <link th:href="@{/resource/themes/css/bootstrappage.css}" rel="stylesheet"/>
+
+    <!-- global styles -->
+    <link th:href="@{/resource/themes/css/flexslider.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/main.css}" rel="stylesheet"/>
+
+    <!-- scripts -->
+    <script th:src="@{/resource/themes/js/jquery-1.7.2.min.js}"></script>
+    <script th:src="@{/resource/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resource/themes/js/superfish.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.scrolltotop.js}"></script>
+    <script th:src="@{/resource/themes/js/main.js}"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<th:block th:replace="/template/topbar :: content"></th:block>
+
+<div id="wrapper" class="container">
+    <th:block th:replace="/template/navigation :: content"></th:block>
+    <th:block th:replace="/template/ad-slider :: content"></th:block>
+
+    <section class="header_text sub">
+        <h4><span th:text="${title}"></span></h4>
+    </section>
+
+    <!--Main Content-->
+    <section class="main-content">
+        <th:block th:if="${content}">
+            <center class="content" th:text="${content}"></center>
+        </th:block>
+        <div class="row">
+            <div class="span9">
+                <ul class="thumbnails listing-products">
+                    <th:block th:each="toy : ${toys}">
+                        <li class="span3">
+                            <div class="product-box">
+                                <span th:if="${toy.oldPrice != toy.price}" class="sale_tag"></span>
+                                <a th:href="@{/detail/__${toy.id}__}"><img alt="" th:src="${toy.image}"></a><br/>
+                                <a th:href="@{/detail/__${toy.id}__}" class="title" th:text="${toy.name}"></a><br/>
+                                <a th:href="@{/products-category/__${toy.category.id}__}" class="category" th:text="${toy.category.name}"></a>
+                                <p th:if="${toy.oldPrice == toy.price}" class="price" th:text="'$'+${toy.price}"></p>
+                                <p th:if="${toy.oldPrice != toy.price}" class="price">
+                                    <span class="line-through" th:text="'$'+${toy.oldPrice}"></span>
+                                    <span th:text="'$'+${toy.price}"></span>
+                                </p>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+                <hr>
+                <div class="pagination pagination-small pagination-centered">
+                    <ul>
+                        <li th:if="${toys.hasPrevious()}"><a th:href="@{'/products-brand/'+${id}(page=${toys.number - 1})}">Prev</a></li>
+                        <th:block th:each="index : ${#numbers.sequence( 1, toys.totalPages, 1)}">
+                            <li th:if="${toys.number + 1 == index}" class="active"><a href="#" th:text="${index}"></a></li>
+                            <li th:if="${toys.number + 1 != index}"><a th:href="@{'/products-brand/'+${id}(page=${index - 1})}" th:text="${index}"></a></li>
+                        </th:block>
+                        <li th:if="${toys.hasNext()}"><a th:href="@{'/products-brand/'+${id}(page=${toys.number + 1})}">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="span3 col">
+                <div class="block">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">SUB CATEGORIES</li>
+                        <th:block th:each="cat : ${subcats}">
+                            <li><a th:href="@{/products-category/__${cat.id}__}" th:text="${cat.name}"></a></li>
+                        </th:block>
+                    </ul>
+                    <br/>
+                    <ul class="nav nav-list below">
+                        <li class="nav-header">MANUFACTURES</li>
+                        <th:block th:each="manufacture : ${manufactures}">
+                            <li><a th:href="@{/products-brand/__${manufacture.id}__}" th:text="${manufacture.name}"></a></li>
+                        </th:block>
+                    </ul>
+                </div>
+                <div class="block">
+                    <h4 class="title"><strong>Best</strong> Seller</h4>
+                    <ul class="small-product">
+                        <th:block th:each="best : ${bestsellers}">
+                            <li>
+                                <a th:href="@{/detail/__${best.toy.id}__}">
+                                    <img th:src="${best.toy.image}" alt="">
+                                </a>
+                                <a th:href="@{/detail/__${best.toy.id}__}" th:text="${best.toy.name}"></a>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!--End Main Content-->
+
+    <!--Footer-->
+    <th:block th:replace="/template/footer :: content"></th:block>
+    <!--End Footer-->
+</div>
+
+<script th:src="@{/resource/themes/js/common.js}"></script>
+<script th:src="@{/resource/themes/js/jquery.flexslider-min.js}"></script>
+<script type="text/javascript">
+    $(function() {
+        $(document).ready(function() {
+            $('.flexslider').flexslider({
+                animation: "fade",
+                slideshowSpeed: 4000,
+                animationSpeed: 600,
+                controlNav: false,
+                directionNav: true,
+                controlsContainer: ".flex-container" // the container that holds the flexslider
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Contact us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="icon" th:href="@{/resource/rating/images/toyshop.png}">
+
+    <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+    <!-- bootstrap -->
+    <link th:href="@{/resource/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resource/bootstrap/css/bootstrap-responsive.min.css}" rel="stylesheet">
+
+    <link th:href="@{/resource/themes/css/bootstrappage.css}" rel="stylesheet"/>
+
+    <!-- global styles -->
+    <link th:href="@{/resource/themes/css/flexslider.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/jquery.fancybox.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/main.css}" rel="stylesheet"/>
+
+    <!-- scripts -->
+    <script th:src="@{/resource/themes/js/jquery-1.7.2.min.js}"></script>
+    <script th:src="@{/resource/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resource/themes/js/superfish.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.fancybox.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.scrolltotop.js}"></script>
+    <script th:src="@{/resource/themes/js/main.js}"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<th:block th:replace="/template/topbar :: content"></th:block>
+
+<div id="wrapper" class="container">
+    <th:block th:replace="/template/navigation :: content"></th:block>
+
+    <section class="google_map">
+        <iframe width="100%" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=74%2F6+Nguy%E1%BB%85n+V%C4%83n+Tho%E1%BA%A1i,+S%C6%A1n+Tr%C3%A0,+%C4%90%C3%A0+N%E1%BA%B5ng,+Vi%E1%BB%87t+Nam&amp;aq=0&amp;oq=74%2F6+Nguyen+Van+Thoai+Da+Nang,+Viet+Nam&amp;sll=37.0625,-95.677068&amp;sspn=41.546728,79.013672&amp;ie=UTF8&amp;hq=&amp;hnear=74+Nguy%E1%BB%85n+V%C4%83n+Tho%E1%BA%A1i,+Ng%C5%A9+H%C3%A0nh+S%C6%A1n,+Da+Nang,+Vietnam&amp;t=m&amp;ll=16.064537,108.24151&amp;spn=0.032992,0.039396&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe>
+    </section>
+
+    <section class="header_text sub">
+        <h4><span>Contact us</span></h4>
+    </section>
+
+    <!--Main Content-->
+    <section class="main-content">
+        <div class="row">
+            <div class="span5">
+                <div>
+                    <h5>ADDITIONAL INFORMATION</h5>
+                    <p><strong>Phone:</strong>&nbsp;(123) 456-7890<br>
+                        <strong>Fax:</strong>&nbsp;+04 (123) 456-7890<br>
+                        <strong>Email:</strong>&nbsp;<a href="#">tryhardteam@gmail.com</a>
+                    </p>
+                    <br/>
+                    <h5>SECONDARY OFFICE IN VIETNAM</h5>
+                    <p><strong>Phone:</strong>&nbsp;(113) 023-1125<br>
+                        <strong>Fax:</strong>&nbsp;+04 (113) 023-1145<br>
+                        <strong>Email:</strong>&nbsp;<a href="#">codegym@yahoo.com</a>
+                    </p>
+                </div>
+            </div>
+            <div class="span7">
+                <p>if you have any problem need to be help, please contact us by input your name, email address and content with the form below. Thank you!!!</p>
+                <p th:text="${message}" th:if="${message != null}"></p>
+                <form method="post" th:action="@{/contact}">
+                    <fieldset>
+                        <div class="clearfix">
+                            <label for="name"><span>Your name:</span></label>
+                            <div class="input">
+                                <input tabindex="1" size="18" id="name" name="name" type="text" value="" class="input-xlarge" placeholder="Name">
+                            </div>
+                        </div>
+
+                        <div class="clearfix">
+                            <label for="email"><span>Your email:</span></label>
+                            <div class="input">
+                                <input tabindex="2" size="25" id="email" name="email" type="text" value="" class="input-xlarge" placeholder="Email Address">
+                            </div>
+                        </div>
+
+                        <div class="clearfix">
+                            <label for="content"><span>Your content:</span></label>
+                            <div class="input">
+                                <textarea tabindex="3" class="input-xlarge" id="content" name="content" rows="7" placeholder="Message"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="actions">
+                            <button tabindex="3" type="submit" class="btn btn-inverse">Send content</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!--End Main Content-->
+
+    <!--Footer-->
+    <th:block th:replace="/template/footer :: content"/>
+    <!--End Footer-->
+</div>
+
+<script th:src="@{/resource/themes/js/common.js}"></script>
+</body>
+</html>

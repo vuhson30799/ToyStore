@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="content">
+    <section class="navbar main-menu">
+        <div class="navbar-inner main-menu">
+            <a href="/home" class="logo pull-left"><img src="/resource/themes/images/logo2.png" width="193" height="37" class="site_logo" alt=""></a>
+            <nav id="menu" class="pull-right">
+                <th:block th:utext="|${categoryHtml}|"></th:block>
+            </nav>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Order Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="icon" th:href="@{/resource/rating/images/toyshop.png}">
+
+    <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+    <!-- bootstrap -->
+    <link th:href="@{/resource/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resource/bootstrap/css/bootstrap-responsive.min.css}" rel="stylesheet">
+
+    <link th:href="@{/resource/themes/css/bootstrappage.css}" rel="stylesheet"/>
+
+    <!-- global styles -->
+    <link th:href="@{/resource/themes/css/flexslider.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/jquery.fancybox.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/main.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/modal.css}" rel="stylesheet"/>
+
+    <!--Table-->
+    <link th:href="@{/resource/table/style.css}" rel="stylesheet"/>
+
+    <link th:href="@{/resource/clogin/vendor/datepicker/daterangepicker.css}" rel="stylesheet" media="all">
+
+    <!-- scripts -->
+    <script th:src="@{/resource/themes/js/jquery-1.7.2.min.js}"></script>
+    <script th:src="@{/resource/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resource/themes/js/superfish.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.fancybox.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.scrolltotop.js}"></script>
+    <script th:src="@{/resource/themes/js/main.js}"></script>
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<th:block th:replace="/template/topbar :: content"></th:block>
+
+<div id="wrapper" class="container">
+    <th:block th:replace="/template/navigation :: content"></th:block>
+
+    <section class="header_text sub">
+        <img class="pageBanner" th:src="@{/resource/themes/images/pageBanner.png}" alt="New products" >
+        <h4><span>Order Manager</span></h4>
+    </section>
+
+    <!--Main Content-->
+    <section class="main-content">
+
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#delivering">Delivering Orders</a></li>
+            <li class=""><a href="#inventory">Inventory Products</a></li>
+            <li class=""><a href="#history">History Orders</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+            <!--Delivering-->
+            <div class="tab-pane active" id="delivering">
+
+            </div>
+            <!--End Delivering-->
+
+            <!--Inventory-->
+            <div class="tab-pane" id="inventory">
+
+            </div>
+            <!--End Inventory-->
+
+            <!--History-->
+            <div class="tab-pane" id="history">
+
+            </div>
+            <!--End History-->
+
+        </div>
+
+    </section>
+    <!--End Main Content-->
+
+    <!--Footer-->
+    <th:block th:replace="/template/footer :: content"></th:block>
+    <!--End Footer-->
+</div>
+
+<!-- The Modal -->
+<div id="customerModal">
+
+</div>
+
+<div id="removeModal">
+
+</div>
+
+<div id="updateModal">
+
+</div>
+
+<div id="createModal">
+
+</div>
+<script th:src="@{/resource/sales/sales.js}"></script>
+<script th:src="@{/resource/themes/js/common.js}"></script>
+
+<script th:src="@{/resource/clogin/vendor/select2/select2.min.js}"></script>
+<script th:src="@{/resource/clogin/vendor/datepicker/moment.min.js}"></script>
+<script th:src="@{/resource/clogin/vendor/datepicker/daterangepicker.js}"></script>
+<script>
+    $(function () {
+        $('#myTab a:first').tab('show');
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+    })
+    $(document).ready(function() {
+        $('.thumbnail').fancybox({
+            openEffect  : 'none',
+            closeEffect : 'none'
+        });
+
+        $('#myCarousel-2').carousel({
+            interval: 2500
+        });
+    });
+</script>
+</body>
+</html>

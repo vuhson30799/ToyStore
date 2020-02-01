@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="content">
+
+    <div id="top-bar" class="container">
+        <div class="row">
+            <div class="span4">
+                <form th:action="@{/search}" onsubmit="return validateSearch()" method="POST" class="search_form">
+                    <input type="text" name="word" id="search" class="input-block-level search-query" Placeholder="Input something need to be find">
+                </form>
+            </div>
+            <div class="span8">
+                <div class="account pull-right">
+                    <ul class="user-menu">
+                        <th:block sec:authorize="hasRole('USER')">
+                            <li><a href="/order-history">Order History</a></li>
+                            <li><a href="/favorite">Favorite List</a></li>
+                            <li><a href="/cart" th:text="'My Cart(' + ${cart.quantity} + ')'"></a></li>
+                            <li><a href="/profile">My Account</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </th:block>
+                        <th:block sec:authorize="hasRole('SELLER')">
+                            <li><a href="/manage-order">Order Manager</a></li>
+                            <li><a href="/profile">My Account</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </th:block>
+                        <th:block sec:authorize="isAnonymous()">
+                            <li><a href="/cart" th:text="'My Cart(' + ${cart.quantity} + ')'"></a></li>
+                            <li><a href="/login-form">Login</a></li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>

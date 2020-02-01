@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <link rel="icon" th:href="@{/resource/rating/images/toyshop.png}">
+
+    <!-- Title Page-->
+    <title>Sign up Form</title>
+
+    <!-- Icons font CSS-->
+    <link th:href="@{/resource/clogin/vendor/mdi-font/css/material-design-iconic-font.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{/resource/clogin/vendor/font-awesome-4.7/css/font-awesome.min.css}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link th:href="@{/resource/clogin/vendor/select2/select2.min.css}" rel="stylesheet" media="all">
+    <link th:href="@{/resource/clogin/vendor/datepicker/daterangepicker.css}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link th:href="@{/resource/clogin/css/main.css}" rel="stylesheet" media="all">
+
+</head>
+
+<body>
+<div class="logo-div">
+    <a href="/home"><img src="/resource/themes/images/logo2.png" width="193" height="55" alt=""></a>
+</div>
+<div class="page-wrapper bg-gra-01 p-t-100 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w960">
+        <div class="card card-3">
+            <div class="card-heading"></div>
+            <div class="card-body">
+                <h2 class="title">Registration Information</h2>
+                <form method="POST" action="/register-selling" th:object="${seller}">
+
+                    <input type="hidden" th:field="*{id}"/>
+                    <input type="hidden" name="prv" th:value="${prv}"/>
+                    <input type="hidden" name="dst" th:value="${dst}"/>
+                    <input type="hidden" name="vlg" th:value="${vlg}"/>
+
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="text" placeholder="Username" th:field="*{account.username}">
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.username')}">
+                        <span class="error-text" th:errors="*{account.username}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="password" placeholder="Password" th:field="*{account.password}">
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.password')}">
+                        <span class="error-text" th:errors="*{account.password}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="password" placeholder="Repeat Password" th:field="*{account.confirmPassword}">
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.confirmPassword')}">
+                        <span class="error-text" th:errors="*{account.confirmPassword}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="text" placeholder="Name" th:field="*{account.name}">
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.name')}">
+                        <span class="error-text" th:errors="*{account.name}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3 js-datepicker" type="text" placeholder="Birthdate" th:field="*{account.dob}">
+                        <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.dob')}">
+                        <span class="error-text" th:errors="*{account.dob}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select th:field="*{account.gender}">
+                                <option value="">Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.gender')}">
+                        <span class="error-text" th:errors="*{account.gender}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="email" placeholder="Email" th:field="*{account.email}">
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.email')}">
+                        <span class="error-text" th:errors="*{account.email}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="text" placeholder="Phone" th:field="*{account.phone}">
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.phone')}">
+                        <span class="error-text" th:errors="*{account.phone}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select th:field="*{account.province}" id="province" onchange="chooseProvince(this)">
+                                <option value="">Province</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.province')}">
+                        <span class="error-text" th:errors="*{account.province}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select th:field="*{account.district}" id="district" onchange="chooseDistrict(this)">
+                                <option value="">District</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.district')}">
+                        <span class="error-text" th:errors="*{account.district}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select th:field="*{account.village}" id="village">
+                                <option value="">Village</option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('account.village')}">
+                        <span class="error-text" th:errors="*{account.village}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="text" placeholder="Your store name" th:field="*{storeName}">
+                    </div>
+                    <div class="input-group" th:if="${#fields.hasErrors('storeName')}">
+                        <span class="error-text" th:errors="*{storeName}"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input--style-3">Doanh nghiệp của bạn đã có giấy phép kinh doanh chưa?</span>
+                        <div class="input--style-3">
+                            <input type="radio" th:field="*{businessCertificate}" th:value="true" onchange="denySignUpA()"/>
+                            <span>Đã Có</span>
+                        </div>
+                        <div class="input--style-3">
+                            <input type="radio" th:field="*{businessCertificate}" th:value="false" onchange="denySignUpB()"/>
+                            <span>Chưa có</span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="input-group">
+                        <input class="input--style-3" type="text" placeholder="Your business certification code" th:field="*{certificateCode}">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="rs-select2 js-select-simple select--no-search">
+                            <select th:field="*{businessField}">
+                                <option value="null">Ngành hàng</option>
+                                <option th:each="field : ${businessFields}" th:value="${field.id}" th:text="${field.name}"></option>
+                            </select>
+                            <div class="select-dropdown"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <span><a href="/login-form">Have already an account?</a></span>
+                    </div>
+                    <div class="p-t-10">
+                        <button class="btn btn--pill btn--green" type="submit" id="sign-up">Sign up</button>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Jquery JS-->
+<script th:src="@{/resource/clogin/vendor/jquery/jquery.min.js}"></script>
+<!-- Vendor JS-->
+<script th:src="@{/resource/clogin/vendor/select2/select2.min.js}"></script>
+<script th:src="@{/resource/clogin/vendor/datepicker/moment.min.js}"></script>
+<script th:src="@{/resource/clogin/vendor/datepicker/daterangepicker.js}"></script>
+
+<!-- Main JS-->
+<script th:src="@{/resource/clogin/js/global.js}"></script>
+<script th:src="@{/resource/clogin/js/address.js}"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->

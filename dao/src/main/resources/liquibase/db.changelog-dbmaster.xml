@@ -6,5 +6,6 @@
 
 
     <include file="db.changelog.dbmaster-1.0.xml" relativeToChangelogFile="true" />
+    <include file="db.changelog.dbmaster-1.1.xml" relativeToChangelogFile="true" />
 
 </databaseChangeLog>

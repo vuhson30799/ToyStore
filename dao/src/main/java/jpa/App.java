@@ -27,7 +27,9 @@ public class App {
 
         System.out.println(brand.getName());
         System.out.println();
-        toy.setManufacturer("Hàn Quốc");
+
+        brand.setName("hello");
+        toy.setBrand(brand);
         Thread.sleep(1000);
 
         toyRepository.save(toy);

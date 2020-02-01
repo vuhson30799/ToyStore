@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Your Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="icon" th:href="@{/resource/rating/images/toyshop.png}">
+
+    <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+    <!-- bootstrap -->
+    <link th:href="@{/resource/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resource/bootstrap/css/bootstrap-responsive.min.css}" rel="stylesheet">
+
+    <link th:href="@{/resource/themes/css/bootstrappage.css}" rel="stylesheet"/>
+
+    <!-- global styles -->
+    <link th:href="@{/resource/themes/css/flexslider.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/main.css}" rel="stylesheet"/>
+
+    <!-- scripts -->
+    <script th:src="@{/resource/themes/js/jquery-1.7.2.min.js}"></script>
+    <script th:src="@{/resource/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resource/themes/js/superfish.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.scrolltotop.js}"></script>
+    <script th:src="@{/resource/themes/js/main.js}"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<th:block th:replace="/template/topbar :: content"></th:block>
+
+<div id="wrapper" class="container">
+    <th:block th:replace="/template/navigation :: content"></th:block>
+
+    <section class="header_text sub">
+        <img class="pageBanner" th:src="@{/resource/themes/images/pageBanner.png}" alt="New products" >
+        <h4><span>Shopping Cart</span></h4>
+    </section>
+
+    <!--Main Content-->
+    <section class="main-content">
+        <th:block th:if="${message}">
+            <div class="message"><center th:text="${message}"></center></div>
+        </th:block>
+        <h4 class="title"><span class="text"><strong>Your</strong> Cart</span></h4>
+        <form id="form1" action="/checkout" onsubmit="return validateCheckout()" method="post"></form>
+        <form id="form2" action="/remove" onsubmit="return checkboxValidate()" method="post"></form>
+        <form id="form3" action="/home" method="get"></form>
+        <th:block th:if="${cart.setRemoveId()}"></th:block>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="remove">Remove</th>
+                <th class="image">Image</th>
+                <th class="name">Product Name</th>
+                <th class="quantity">Quantity</th>
+                <th class="qtyinstock">QtyInStock</th>
+                <th class="unitprice">Unit Price</th>
+                <th class="total">Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="order : ${cart.getOrders()}">
+                <input type="hidden" name="ccQtyInStock" form="form1" th:value="${order.toy.quantityInStock}">
+                <tr>
+                    <td><input type="checkbox" name="removes" form="form2" th:value="${order.removeId}"></td>
+                    <td><a th:href="@{/detail/__${order.toy.id}__}"><img alt="" th:src="${order.toy.image}"></a></td>
+                    <td th:text="${order.toy.name}"></td>
+                    <td><input type="text" name="cQty" form="form1" th:value="${order.quantity}" class="input-mini"></td>
+                    <td th:text="${order.toy.quantityInStock}"></td>
+                    <td th:text="'$' + ${order.toy.price}"></td>
+                    <td th:text="'$' + ${order.toy.price * order.quantity}"></td>
+                </tr>
+            </th:block>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><strong th:text="'$' + ${cart.getTotalPrice()}"></strong></td>
+            </tr>
+            </tbody>
+        </table>
+        <h4>What would you like to pay your cart?</h4>
+        <p>Choose if you want to pay by online payment or payment on delivery.</p>
+        <label class="radio">
+            <input type="radio" name="paymentType" id="optionsRadios1" form="form1" value="bank" checked="">
+            Use Bank Account
+        </label>
+        <label class="radio">
+            <input type="radio" name="paymentType" id="optionsRadios2" form="form1" value="delivery">
+            Payment on Delivery
+        </label>
+        <hr>
+        <p class="cart-total right">
+            <strong>Subtotal:$</strong><span th:text="${cart.getTotalPrice()}"></span><br>
+            <strong>Shipping Fee:$</strong><span th:text="${cart.shippingFee}"></span><br>
+            <strong th:text="'VAT (' + ${cart.vat} + '%):$'"></strong><span th:text="${cart.getVatFee()}"></span><br>
+            <strong>Total:$</strong><span th:text="${cart.getFinalTotal()}"></span><br>
+        </p>
+        <hr/>
+        <p class="buttons center">
+            <input class="input-btn" type="submit" form="form2" value="Remove">
+            <input class="input-btn" type="submit" form="form3" value="Continue Shopping">
+            <input class="input-btn" type="submit" form="form1" value="Checkout">
+        </p>
+    </section>
+    <!--End Main Content-->
+
+    <!--Footer-->
+    <th:block th:replace="/template/footer :: content"></th:block>
+    <!--End Footer-->
+</div>
+
+<script th:src="@{/resource/themes/js/common.js}"></script>
+<script th:src="@{/resource/themes/js/jquery.flexslider-min.js}"></script>
+<script type="text/javascript">
+    $(function() {
+        $(document).ready(function() {
+            $('.flexslider').flexslider({
+                animation: "fade",
+                slideshowSpeed: 4000,
+                animationSpeed: 600,
+                controlNav: false,
+                directionNav: true,
+                controlsContainer: ".flex-container" // the container that holds the flexslider
+            });
+        });
+    });
+</script>
+</body>
+</html>

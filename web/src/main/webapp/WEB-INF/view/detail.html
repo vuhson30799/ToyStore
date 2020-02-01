@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Product Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="icon" th:href="@{/resource/rating/images/toyshop.png}">
+
+    <!--[if ie]><meta content='IE=8' http-equiv='X-UA-Compatible'/><![endif]-->
+    <!-- bootstrap -->
+    <link th:href="@{/resource/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/resource/bootstrap/css/bootstrap-responsive.min.css}" rel="stylesheet">
+
+    <link th:href="@{/resource/themes/css/bootstrappage.css}" rel="stylesheet"/>
+
+    <!-- global styles -->
+    <link th:href="@{/resource/themes/css/flexslider.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/jquery.fancybox.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/themes/css/main.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/comment/comment.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/comment/star.css}" rel="stylesheet"/>
+    <link th:href="@{/resource/comment/style.css}" rel="stylesheet"/>
+
+    <!-- scripts -->
+    <script th:src="@{/resource/themes/js/jquery-1.7.2.min.js}"></script>
+    <script th:src="@{/resource/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/resource/themes/js/superfish.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.fancybox.js}"></script>
+    <script th:src="@{/resource/themes/js/jquery.scrolltotop.js}"></script>
+    <script th:src="@{/resource/themes/js/main.js}"></script>
+    <script th:src="@{/resource/comment/js/comment.js}"></script>
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<th:block th:replace="/template/topbar :: content"></th:block>
+
+<div id="wrapper" class="container">
+    <th:block th:replace="/template/navigation :: content"></th:block>
+
+    <section class="header_text sub">
+        <img class="pageBanner" th:src="@{/resource/themes/images/pageBanner.png}" alt="New products" >
+        <h4><span th:text="${toy.name}"></span></h4>
+    </section>
+
+    <!--Main Content-->
+    <section class="main-content">
+        <div class="row">
+
+            <div class="span9">
+
+                <div class="row">
+
+                    <div class="span4">
+
+                        <a th:href="${toy.image}" class="thumbnail" data-fancybox-group="group1" title="Description"><img alt="" th:src="${toy.image}"></a>
+                        <ul class="thumbnails small">
+                            <th:block th:each="image : ${images}">
+                                <li class="span1">
+                                    <a th:href="${image.link}" class="thumbnail" data-fancybox-group="group1" th:title="${image.title}"><img th:src="${image.link}" alt=""></a>
+                                </li>
+                            </th:block>
+                        </ul>
+
+                    </div>
+
+                    <div class="span5">
+
+                        <address>
+                            <strong>Brand:</strong> <span th:text="${toy.brand.name}"></span><br>
+                            <strong>Manufacturing Date:</strong> <span th:text="${toy.manufacturingDate}"></span><br>
+                            <strong>Nation:</strong> <span th:text="${toy.brand.nation}"></span><br>
+                            <strong>Availability:</strong> <span th:if="${toy.quantityInStock == 0}">Out Of Stock</span><span th:if="${toy.quantityInStock != 0}">Stocking</span><br>
+                            <strong>Quantity:</strong> <span th:text="${toy.quantityInStock}"></span><br>
+                        </address>
+
+                        <h4><strong th:text="'Price: $' + ${toy.price}"></strong></h4>
+
+                    </div>
+
+                    <div class="span5">
+                        <form class="form-inline" th:action="@{/add-to-cart/__${toy.id}__}" onsubmit="return cartValidate()" method="get">
+                            <p>&nbsp;</p>
+                            <label>Qty</label>
+                            <input type="text" name="qty" class="span1">
+                            <input type="hidden" name="qtyInStock" th:value="${toy.quantityInStock}">
+
+                            <input class="btn btn-inverse" type="submit" value="Add to cart">
+                        </form>
+
+                        <span id="favoriteBtn">
+                            <span>Add to favorite list</span>
+                            <button class="heart-btn" onclick="addFavorite(this)"><img width="35px" th:src="@{/resource/rating/images/blackheart.png}"></button>
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="span9">
+
+                        <ul class="nav nav-tabs" id="myTab">
+                            <li class="active"><a href="#home">Description</a></li>
+                            <li class=""><a href="#profile">Additional Information</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+
+                            <div class="tab-pane active" id="home" th:text="${toy.description}"></div>
+
+                            <div class="tab-pane" id="profile">
+                                <table class="table table-striped shop_attributes">
+                                    <tbody>
+                                        <th:block th:each="info : ${informations}">
+                                            <tr class="">
+                                                <th th:text="${info.header}"></th>
+                                                <td th:text="${info.content}"></td>
+                                            </tr>
+                                        </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="span9">
+                        <br>
+
+                        <h4 class="title">
+
+                            <span class="pull-left"><span class="text"><strong>Related</strong> Products</span></span>
+
+                            <span class="pull-right">
+                                <a class="left button" href="#myCarousel-1" data-slide="prev"></a>
+                                <a class="right button" href="#myCarousel-1" data-slide="next"></a>
+                            </span>
+
+                        </h4>
+
+                        <div id="myCarousel-1" class="carousel slide">
+                            <div class="carousel-inner">
+
+                                <div class="active item">
+                                    <ul class="thumbnails listing-products">
+                                        <th:block th:each="toy : ${relatedToys1}">
+                                            <li class="span3">
+                                                <div class="product-box">
+
+                                                    <span th:if="${toy.price != toy.oldPrice}" class="sale_tag"></span>
+                                                    <p><a th:href="@{/detail/__${toy.id}__}"><img th:src="${toy.image}" alt="" /></a></p>
+                                                    <a th:href="@{/detail/__${toy.id}__}" class="title" th:text="${toy.name}"></a><br/>
+                                                    <a th:href="@{/products-category/__${toy.category.id}__}" class="category" th:text="${toy.category.name}"></a>
+                                                    <p th:if="${toy.price == toy.oldPrice}" class="price" th:text="'$'+${toy.price}"></p>
+                                                    <p th:if="${toy.price != toy.oldPrice}" class="price">
+                                                        <span class="line-through" th:text="'$'+${toy.oldPrice}"></span>
+                                                        <span th:text="'$'+${toy.price}"></span>
+                                                    </p>
+
+                                                </div>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+
+                                <div class="item">
+                                    <ul class="thumbnails listing-products">
+                                        <th:block th:each="toy : ${relatedToys2}">
+                                            <li class="span3">
+                                                <div class="product-box">
+
+                                                    <span th:if="${toy.price != toy.oldPrice}" class="sale_tag"></span>
+                                                    <p><a th:href="@{/detail/__${toy.id}__}"><img th:src="${toy.image}" alt="" /></a></p>
+                                                    <a th:href="@{/detail/__${toy.id}__}" class="title" th:text="${toy.name}"></a><br/>
+                                                    <a th:href="@{/products-category/__${toy.category.id}__}" class="category" th:text="${toy.category.name}"></a>
+                                                    <p th:if="${toy.price == toy.oldPrice}" class="price" th:text="'$'+${toy.price}"></p>
+                                                    <p th:if="${toy.price != toy.oldPrice}" class="price">
+                                                        <span class="line-through" th:text="'$'+${toy.oldPrice}"></span>
+                                                        <span th:text="'$'+${toy.price}"></span>
+                                                    </p>
+
+                                                </div>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="span3 col">
+
+                <div class="block">
+
+                    <ul class="nav nav-list">
+
+                        <li class="nav-header">SUB CATEGORIES</li>
+                        <th:block th:each="cat : ${subcats}">
+                            <li><a th:href="@{/products-category/__${cat.id}__}" th:text="${cat.name}"></a></li>
+                        </th:block>
+
+                    </ul>
+                    <br/>
+
+                    <ul class="nav nav-list below">
+
+                        <li class="nav-header">MANUFACTURES</li>
+
+                        <th:block th:each="manufacture : ${manufactures}">
+                            <li><a th:href="@{/products-brand/__${manufacture.id}__}" th:text="${manufacture.name}"></a></li>
+                        </th:block>
+
+                    </ul>
+
+                </div>
+
+                <div class="block">
+
+                    <h4 class="title"><strong>Best</strong> Seller</h4>
+
+                    <ul class="small-product">
+                        <th:block th:each="best : ${bestsellers}">
+                            <li>
+                                <a th:href="@{/detail/__${best.toy.id}__}">
+                                    <img th:src="${best.toy.image}" alt="">
+                                </a>
+                                <a th:href="@{/detail/__${best.toy.id}__}" th:text="${best.toy.name}"></a>
+                            </li>
+                        </th:block>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!--Rating-->
+            <div class="span9">
+
+                <h4 class="title">
+                    <span class="pull-left"><span class="text"><strong>Customer</strong> Reviews</span></span>
+                </h4>
+
+                <div class="rating-content">
+                    <iframe scrolling="no" class="rating" th:src="@{/rating/__${toy.id}__}"></iframe>
+                </div>
+
+            </div>
+            <!--End rating-->
+
+            <!--Form comment-->
+            <div class="span9">
+
+                <h4 class="title">
+                    <span class="pull-left"><span class="text"><strong>Form</strong> Review & Comment</span></span>
+                </h4>
+
+                <div class="review-comment">
+
+                    <input type="hidden" name="toyId" th:value="${toy.id}">
+                    <input type="hidden" name="username" th:value="${username}">
+                    <p sec:authorize="isAnonymous()" class="error-text">You must login to review and comment</p>
+                    <span><b>Your Rating</b></span>
+
+                    <span class="rate-span">
+                        <section>
+                            <div class="rt-container">
+                                <div class="col-rt-12">
+                                    <form>
+                                        <span class="star-cb-group">
+
+                                            <input th:if="${star == 5}" checked type="radio" id="rating-5" name="myrate" value="5" />
+                                            <input th:if="${star != 5}" type="radio" id="rating-5" name="myrate" value="5" />
+                                            <label for="rating-5">5</label>
+                                            <input th:if="${star == 4}" checked type="radio" id="rating-4" name="myrate" value="4" />
+                                            <input th:if="${star != 4}" type="radio" id="rating-4" name="myrate" value="4" />
+                                            <label for="rating-4">4</label>
+                                            <input th:if="${star == 3}" checked type="radio" id="rating-3" name="myrate" value="3" />
+                                            <input th:if="${star != 3}" type="radio" id="rating-3" name="myrate" value="3" />
+                                            <label for="rating-3">3</label>
+                                            <input th:if="${star == 2}" checked type="radio" id="rating-2" name="myrate" value="2" />
+                                            <input th:if="${star != 2}" type="radio" id="rating-2" name="myrate" value="2" />
+                                            <label for="rating-2">2</label>
+                                            <input th:if="${star == 1}" checked type="radio" id="rating-1" name="myrate" value="1" />
+                                            <input th:if="${star != 1}" type="radio" id="rating-1" name="myrate" value="1" />
+                                            <label for="rating-1">1</label>
+
+                                        </span>
+                                    </form>
+                                </div>
+                            </div>
+                        </section>
+                    </span>
+
+                    <div class="comment-box">
+
+                        <span><b>Your Comment</b></span>
+                        <textarea name="comment" class="comment-text" rows="5" placeholder="What do you think abount this toy?"></textarea>
+
+                    </div>
+
+                    <div>
+
+                        <input class="input-btn" sec:authorize="isAuthenticated()" type="button" onclick="createComment2()" value="Send Comment">
+                        <input class="input-btn" sec:authorize="isAnonymous()" type="button" disabled value="Send Comment">
+
+                    </div>
+
+                </div>
+            </div>
+            <!--End Form comment-->
+
+            <!--Comments-->
+            <div class="span9">
+
+                <h4 class="title">
+                    <span class="pull-left"><span class="text"><strong>Customer</strong> Comments</span></span>
+                </h4>
+
+                <div id="m-g-l">
+                    <span class="error-text">No comments were found</span>
+                </div>
+
+            </div>
+            <!--End Comments-->
+        </div>
+
+
+    </section>
+    <!--End Main Content-->
+
+    <!--Footer-->
+    <th:block th:replace="/template/footer :: content"></th:block>
+    <!--End Footer-->
+</div>
+
+<script th:src="@{/resource/themes/js/common.js}"></script>
+<script>
+    $(function () {
+        $('#myTab a:first').tab('show');
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+    })
+    $(document).ready(function() {
+        $('.thumbnail').fancybox({
+            openEffect  : 'none',
+            closeEffect : 'none'
+        });
+
+        $('#myCarousel-2').carousel({
+            interval: 2500
+        });
+    });
+</script>
+</body>
+</html>
